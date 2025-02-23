@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oh Saohbji</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color-light: #f26522;
+            --accent-color-light: #008080;
+            --secondary-color-light: #f5f5f5;
+            --text-color-light: #333;
+            --background-color-light: #fff;
+
+            --primary-color-dark: #d94c18;
+            --accent-color-dark: #006666;
+            --secondary-color-dark: #333;
+            --text-color-dark: #f5f5f5;
+            --background-color-dark: #121212;
+
+            --current-primary-color: var(--primary-color-light);
+            --current-accent-color: var(--accent-color-light);
+            --current-secondary-color: var(--secondary-color-light);
+            --current-text-color: var(--text-color-light);
+            --current-background-color: var(--background-color-light);
+
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            background-color: var(--current-background-color);
+            color: var(--current-text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            overflow-x: hidden;
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+        .justify-content-evenly{
+            justify-content: space-evenly;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+        .mb-10{
+            margin-bottom: 10px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background-color: var(--current-secondary-color);
+            color: var(--current-text-color);
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            color: var(--current-text-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            display: inline-block;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .navbar a:hover {
+            background-color: var(--current-primary-color);
+            color: #fff;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 24px;
+            margin-left: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            /* Ensure text is above the overlay */
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent overlay */
+            z-index: -1;
+            /* Place overlay behind the text */
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #fff;
+            /* Ensure text color contrasts with overlay */
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #fff;
+            /* Ensure text color contrasts with overlay */
+        }
+
+        .hero-buttons .btn {
+            margin: 0 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--current-primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color var(--transition-speed);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--current-accent-color);
+        }
+
+        /* Featured Items */
+        .featured-items {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .featured-items h2 {
+            margin-bottom: 30px;
+            color: var(--current-text-color);
+        }
+
+        .item-card {
+            background-color: var(--current-secondary-color);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            width: calc(33.333% - 20px);
+            /* Three items per row */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-card img {
+            max-width: 100%;
+            /* Make images responsive */
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .item-card h3 {
+            color: var(--current-text-color);
+            margin-bottom: 10px;
+        }
+
+        .item-card p {
+            color: var(--current-text-color);
+            margin-bottom: 15px;
+        }
+
+        /* Menu Page */
+        .menu-page {
+            padding: 40px 0;
+        }
+
+        .menu-filters {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: var(--current-secondary-color);
+            color: var(--current-text-color);
+            border: 1px solid var(--current-primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--current-primary-color);
+            color: #fff;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Product Detail Page */
+        .product-detail {
+            padding: 40px 0;
+        }
+
+        .product-options {
+            margin-bottom: 20px;
+        }
+
+        .product-options select,
+        .product-options input[type="checkbox"] {
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid var(--current-primary-color);
+        }
+
+        /* About Us Page */
+        .about-us {
+            padding: 40px 0;
+        }
+
+        .about-us h2 {
+            margin-bottom: 20px;
+            color: var(--current-text-color);
+        }
+
+        .about-us p {
+            line-height: 1.6;
+            color: var(--current-text-color);
+        }
+
+        /* Cart & Checkout */
+        .cart-section {
+            padding: 40px 0;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            background-color: var(--current-secondary-color);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--current-text-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--current-secondary-color);
+            color: var(--current-text-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar .d-flex {
+                flex-direction: column;
+            }
+
+            .navbar a {
+                text-align: center;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            .item-card {
+                width: calc(50% - 20px);
+                /* Two items per row on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item-card {
+                width: 100%;
+                /* One item per row on very small screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="#" onclick="scrollToSection('home')">Home</a>
+            <a href="#" onclick="scrollToSection('menu')">Menu</a>
+            <a href="#" onclick="scrollToSection('about')">About Us</a>
+            <a href="#" onclick="scrollToSection('cart')">Cart</a>
+            <span class="theme-toggle" onclick="toggleTheme()">☀️</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero"
+        style="background-image: url('https://img.freepik.com/free-photo/side-view-shawarma-with-fried-potatoes-board-cookware_176474-3215.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais');">
+        <div class="container">
+            <h1>Welcome to Oh Saohbji</h1>
+            <p>Discover the best momos in town with 50 unique sauces!</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn" onclick="scrollToSection('menu')">Explore Menu</a>
+                <a href="#" class="btn" onclick="scrollToSection('menu')">Customize Your Momo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Items -->
+    <section class="featured-items">
+        <div class="container">
+            <h2>Featured Momos</h2>
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="item-card">
+                    <img src="https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais"
+                        alt="Paneer Momo">
+                    <h3>Paneer Momo</h3>
+                    <p>Delicious paneer momos with your choice of sauce.</p>
+                    <button class="btn" onclick="addItemToCart('Paneer Momo', 8.99)">Add to Cart</button>
+                </div>
+                <div class="item-card">
+                    <img src="https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais"
+                        alt="Soya Momo">
+                    <h3>Soya Momo</h3>
+                    <p>Healthy and tasty soya momos with a variety of sauces.</p>
+                    <button class="btn" onclick="addItemToCart('Soya Momo', 7.99)">Add to Cart</button>
+                </div>
+                <div class="item-card">
+                    <img src="https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais"
+                        alt="Mushroom Momo">
+                    <h3>Mushroom Momo</h3>
+                    <p>Savory mushroom momos, perfect with our special sauces.</p>
+                    <button class="btn" onclick="addItemToCart('Mushroom Momo', 9.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Page -->
+    <section id="menu" class="menu-page">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="menu-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="paneer">Paneer</button>
+                <button class="filter-btn" data-filter="soya">Soya</button>
+                <button class="filter-btn" data-filter="mushroom">Mushroom</button>
+                <button class="filter-btn" data-filter="steamed">Steamed</button>
+                <button class="filter-btn" data-filter="fried">Fried</button>
+            </div>
+            <div class="menu-grid">
+                <!-- Menu items will be added here via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Page -->
+    <section id="about" class="about-us">
+        <div class="container">
+            <h2>About Oh Saohbji</h2>
+            <p>
+                At Oh Saohbji, we are passionate about bringing you the most delicious and diverse momo experience. Our
+                journey began with a love for authentic flavors and a desire to share them with the world. We offer a
+                wide variety of momos, including Paneer, Soya, and Mushroom, each prepared with the freshest
+                ingredients.
+            </p>
+            <p>
+                What sets us apart is our extensive selection of 50 unique sauces, allowing you to customize your momos
+                to your exact taste. Whether you prefer them steamed or fried, in full or half plates, we have
+                something for everyone.
+            </p>
+            <p>
+                Our mission is to provide a delightful culinary experience with every bite. We are committed to
+                quality, taste, and customer satisfaction. Thank you for choosing Oh Saohbji!
+            </p>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="cart-section">
+        <div class="container">
+            <h2>Your Cart</h2>
+            <div class="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <div class="cart-total">
+                Total: $<span id="cart-total">0.00</span>
+            </div>
+            <button class="btn" onclick="checkout()">Checkout</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Oh Saohbji. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const root = document.documentElement;
+            const themeToggle = document.querySelector('.theme-toggle');
+
+            if (isDarkMode) {
+                root.style.setProperty('--current-primary-color', 'var(--primary-color-dark)');
+                root.style.setProperty('--current-accent-color', 'var(--accent-color-dark)');
+                root.style.setProperty('--current-secondary-color', 'var(--secondary-color-dark)');
+                root.style.setProperty('--current-text-color', 'var(--text-color-dark)');
+                root.style.setProperty('--current-background-color', 'var(--background-color-dark)');
+                themeToggle.textContent = '🌙';
+            } else {
+                root.style.setProperty('--current-primary-color', 'var(--primary-color-light)');
+                root.style.setProperty('--current-accent-color', 'var(--accent-color-light)');
+                root.style.setProperty('--current-secondary-color', 'var(--secondary-color-light)');
+                root.style.setProperty('--current-text-color', 'var(--text-color-light)');
+                root.style.setProperty('--current-background-color', 'var(--background-color-light)');
+                themeToggle.textContent = '☀️';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        const menuItems = [
+            { name: 'Paneer Momo', type: 'paneer', cooking: 'steamed', price: 8.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' },
+            { name: 'Paneer Momo', type: 'paneer', cooking: 'fried', price: 9.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' },
+            { name: 'Soya Momo', type: 'soya', cooking: 'steamed', price: 7.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' },
+            { name: 'Soya Momo', type: 'soya', cooking: 'fried', price: 8.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' },
+            { name: 'Mushroom Momo', type: 'mushroom', cooking: 'steamed', price: 9.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' },
+            { name: 'Mushroom Momo', type: 'mushroom', cooking: 'fried', price: 10.99, image: 'https://img.freepik.com/free-photo/top-view-dumplings-with-greens-tomatoes-sauce_141793-15361.jpg?size=626&ext=jpg&ga=GA1.1.1355792388.1716681600&semt=ais' }
+        ];
+
+        function renderMenu(items) {
+            const menuGrid = document.querySelector('.menu-grid');
+            menuGrid.innerHTML = '';
+
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.classList.add('item-card');
+                itemCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <p>${item.cooking} - $${item.price.toFixed(2)}</p>
+                    <button class="btn" onclick="addItemToCart('${item.name}', ${item.price})">Add to Cart</button>
+                `;
+                menuGrid.appendChild(itemCard);
+            });
+        }
+
+        function filterMenu(filter) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.filter-btn[data-filter="${filter}"]`).classList.add('active');
+
+            let filteredItems = menuItems;
+            if (filter !== 'all') {
+                filteredItems = menuItems.filter(item => item.type === filter || item.cooking === filter);
+            }
+            renderMenu(filteredItems);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu(menuItems);
+
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterMenu(btn.dataset.filter);
+                });
+            });
+        });
+
+        let cart = [];
+
+        function addItemToCart(name, price) {
+            cart.push({ name, price });
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.querySelector('.cart-items');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <span>${item.name} - $${item.price.toFixed(2)}</span>
+                    <button class="btn" onclick="removeItemFromCart(${index})">Remove</button>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                total += item.price;
+            });
+
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+        }
+
+        function removeItemFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function checkout() {
+            alert('Thank you for your order! Total: $' + document.getElementById('cart-total').textContent);
+            cart = [];
+            updateCartDisplay();
+        }
+    </script>
+</body>
+
+</html>
